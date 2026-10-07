@@ -1,0 +1,53 @@
+experiment:
+  name: patch_prompt_hgnn_hiucd
+  seed: null  # manuscript value not supplied
+  output_dir: outputs
+data:
+  root: data/Hi-UCD
+  image_t1_dir: image/2018
+  image_t2_dir: image/2019
+  label_dir: mask/2018_2019
+  train_list: splits/train.txt
+  val_list: splits/val.txt
+  test_list: splits/test.txt
+  image_size: 512
+  batch_size: null  # manuscript value not supplied
+  num_workers: 4
+  ignore_index: 255
+  transitions:
+    - "no change"
+    - "bare land to grass"
+    - "grass to bare land"
+    - "grass to road"
+    - "road to grass"
+model:
+  hidden_dim: 256
+  sam2:
+    config: sam2.1_hiera_l.yaml
+    checkpoint: checkpoints/sam2.1_hiera_large.pt
+    frozen: true
+  clip:
+    architecture: ViT-L-14
+    pretrained: openai
+    frozen: true
+  graph:
+    layers: 2
+    spatial_threshold: 0.35
+    prompt_threshold: 0.20
+    top_k: 4
+  pqe:
+    detach_similarity_target: true
+loss:
+  lambda_metric: 0.1
+  lambda_scpe: 0.1
+  lambda_graph: 1.0
+  lambda_relation: 0.1
+  lambda_prompt: 0.1
+  lambda_pqe_ce: 1.0
+train:
+  epochs: 505
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  precision: amp
+  devices: null  # manuscript only reports access to four A100 GPUs
+  monitor: val_f1

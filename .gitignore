@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+.idea/
+.vscode/
+checkpoints/
+data/
+outputs/
+runs/
+*.pt
+*.pth
+*.ckpt
+JARS_manuscript*.pdf

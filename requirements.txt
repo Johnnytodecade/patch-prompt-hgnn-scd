@@ -1,0 +1,9 @@
+numpy>=1.26,<3
+Pillow>=10.0
+PyYAML>=6.0
+tqdm>=4.66
+scikit-learn>=1.4
+open-clip-torch>=2.26
+segment-anything-2>=1.0
+torch-geometric>=2.5
+tensorboard>=2.16
